@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Quests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Spectre.Console" Version="0.51.1" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.51.1" />
   </ItemGroup>

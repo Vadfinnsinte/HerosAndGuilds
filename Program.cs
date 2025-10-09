@@ -1,4 +1,4 @@
-﻿using HerosAndGuilds.MenyAndManagement;
+﻿using HerosAndGuilds.MenuAndManagement;
 using Spectre.Console;
 using System.ComponentModel.Design;
 
@@ -8,9 +8,9 @@ namespace HerosAndGuilds
     {
         static void Main(string[] args)
         {
-            var panel = new Panel("[bold green]Heroes & Guilds[/]")
+            var panel = new Panel("[bold yellow]Heroes & Guilds[/]")
                .Border(BoxBorder.Rounded)
-               .BorderColor(Color.Green);
+               .BorderColor(Color.Yellow);
 
             AnsiConsole.Write(panel);
             Startmeny StartProgram = new Startmeny();
