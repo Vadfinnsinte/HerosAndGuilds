@@ -11,7 +11,7 @@ namespace HerosAndGuilds.MenuAndManagement
 {
     public class Startmeny
     {
-        string Choice; 
+        string Choice;
 
         public void Menu()
         {
@@ -24,31 +24,29 @@ namespace HerosAndGuilds.MenuAndManagement
                 {
                         "Login", "Create User", "[red]Exit[/]"
                 }));
-     
 
-                switch (Choice)
-                {
-                    case "Create User":
-                        User Create = new User();
-                        Create.CreateUser(); // Add so it doesent close on Wrong password.
-                            break;
-                    case "Login":
-                        User login = new User();
-                        login.LoginUser();
-                        break;
-                    case "[red]Exit[/]":
-                        Console.WriteLine("Exiting program...");
-                       
-                        break;
+            Manager UserChoises = new Manager();
+            switch (Choice)
+            {
+                case "Create User":
+                    UserChoises.CreateUser(); // Add so it doesent close on Wrong password.
+                    break;
+                case "Login":
+                    UserChoises.LoginUser();
+                    break;
+                case "[red]Exit[/]":
+                    Console.WriteLine("Exiting program...");
 
-                    default:
-                        Console.WriteLine("Something went wrong");
-                        break;
-                }
+                    break;
 
-            
+                default:
+                    Console.WriteLine("Something went wrong");
+                    break;
+            }
+
+
         }
 
-        
+
     }
 }
