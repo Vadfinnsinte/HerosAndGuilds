@@ -1,6 +1,7 @@
 ﻿using HerosAndGuilds.Guilds;
 using HerosAndGuilds.UserAndHero;
 using Spectre.Console;
+using System.Globalization;
 using System.Xml.Linq;
 
 
@@ -23,7 +24,7 @@ namespace HerosAndGuilds.MenuAndManagement
             User makeUser = new User();
             bool isPasswordOk = false;
             var panel = new Panel("[bold green]Create User[/]")
-           .Border(BoxBorder.Rounded)
+           .Border(BoxBorder.Ascii)
            .BorderColor(Color.Green);
             AnsiConsole.Write(panel);
 
@@ -73,8 +74,8 @@ namespace HerosAndGuilds.MenuAndManagement
 
             AnsiConsole.MarkupLine($"[green]User '{makeUser.Username}' created successfully![/]"); // add a confirm?
 
-
         }
+
         private bool CheckPassword(string password)
         {
             if (password.Length < 6 || password.Length > 20) return false;
@@ -117,7 +118,30 @@ namespace HerosAndGuilds.MenuAndManagement
         }
         public void LoginUser()
         {
-            Console.WriteLine("Coming soon...");
+            var panel = new Panel("[bold green]Login[/]")
+                .Border(BoxBorder.Double)
+                .BorderColor(Color.Green);
+            AnsiConsole.Write(panel);
+
+            string username = AnsiConsole.Prompt(
+             new TextPrompt<string>("Username:"));
+
+            string password = AnsiConsole.Prompt(
+             new TextPrompt<string>("Password:"));
+
+            User found = Users.Find(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+
+            if (found != null)
+            {
+                if(found.Password == password)
+                {
+                    Console.WriteLine($"Welcome {username}");
+                }
+                else
+                {
+                    Console.WriteLine("Wrong username or password");
+                }
+            }
 
         }
     }

@@ -13,9 +13,12 @@ namespace HerosAndGuilds
                .BorderColor(Color.Yellow);
 
             AnsiConsole.Write(panel);
-            Startmeny StartProgram = new Startmeny();
 
-            StartProgram.Menu(); 
+            Manager manager = new Manager();     
+            Startmeny startProgram = new Startmeny(manager);
+
+            startProgram.Menu(); 
+            // recive return from ^ to start next menu.
         }
     }
 }
