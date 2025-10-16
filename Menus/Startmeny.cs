@@ -23,7 +23,7 @@ namespace HerosAndGuilds.Menus
 
         public bool Menu() // add a return for logged in.
         {
-            
+
             bool keepRunning = true;
 
             while (keepRunning)
@@ -46,17 +46,24 @@ namespace HerosAndGuilds.Menus
                 {
                     case "Create User":
                         _manager.CreateUser();
-                        Thread.Sleep(2000);
-                        Console.Clear();
-       
+                        AnsiConsole.Status()
+                         .Start("Saving user...", ctx =>
+                         {
+                             Thread.Sleep(2000); // simulera "loading"
+                         });
+
+                        AnsiConsole.MarkupLine("[green]User created successfully![/]");
+                        Thread.Sleep(1000);
+                        AnsiConsole.Clear();
+
                         break;
                     case "Login":
                         bool loggedIn = _manager.LoginUser();
                         if (loggedIn)
                         {
                             keepRunning = false;
-                            
-                        Console.Clear();
+
+                            Console.Clear();
                             return true;
                         }
                         break;
@@ -64,13 +71,13 @@ namespace HerosAndGuilds.Menus
                         Console.Clear();
                         Console.WriteLine("Exiting program...");
                         keepRunning = false;
-                    
+
                         break;
                     default:
                         Console.WriteLine("Something went wrong");
                         break;
                 }
-                
+
             }
             return false;
         }
