@@ -11,44 +11,49 @@ namespace HerosAndGuilds.MenuAndManagement
 {
     public class Startmeny
     {
-        string Choice; 
+        private Manager _manager;
+        string Choice;
 
-        public void Menu()
+        public Startmeny(Manager manager)
         {
-            // Add an about option? 
-            Choice = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                .Title("[blue]Chose if you want to Login, Create a User or Exit[/]")
-                .HighlightStyle(new Style(Color.Yellow))
-                .AddChoices(new[]
-                {
-                        "Login", "Create User", "[red]Exit[/]"
-                }));
-     
+            _manager = manager;
+        }
+
+
+        public void Menu() // add a return for logged in.
+        {
+            bool keepRunning = true;
+
+            while (keepRunning)
+            {
+                Choice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                    .Title("[blue]Choose if you want to Login, Create a User or Exit[/]")
+                    .HighlightStyle(new Style(Color.Yellow))
+                    .AddChoices(new[]
+                    {
+                "Login", "Create User", "[red]Exit[/]"
+                    }));
 
                 switch (Choice)
                 {
                     case "Create User":
-                        User Create = new User();
-                        Create.CreateUser(); // Add so it doesent close on Wrong password.
-                            break;
+                        _manager.CreateUser();
+                        break;
                     case "Login":
-                        User login = new User();
-                        login.LoginUser();
+                        _manager.LoginUser(); // add logic to send user from this menu.
+                        keepRunning = false;
                         break;
                     case "[red]Exit[/]":
                         Console.WriteLine("Exiting program...");
-                       
+                        keepRunning = false;
                         break;
-
                     default:
                         Console.WriteLine("Something went wrong");
                         break;
                 }
-
-            
+                
+            }
         }
-
-        
     }
 }

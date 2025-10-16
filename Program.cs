@@ -8,14 +8,17 @@ namespace HerosAndGuilds
     {
         static void Main(string[] args)
         {
-            var panel = new Panel("[bold yellow]Heroes & Guilds[/]")
+            var panel = new Panel("[bold yellow]Heroes & Guilds[/]") // ändra till https://spectreconsole.net/widgets/figlet? 
                .Border(BoxBorder.Rounded)
                .BorderColor(Color.Yellow);
 
             AnsiConsole.Write(panel);
-            Startmeny StartProgram = new Startmeny();
 
-            StartProgram.Menu(); 
+            Manager manager = new Manager();     
+            Startmeny startProgram = new Startmeny(manager);
+
+            startProgram.Menu(); 
+            // recive return from ^ to start next menu.
         }
     }
 }
