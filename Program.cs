@@ -1,4 +1,5 @@
-﻿using HerosAndGuilds.MenuAndManagement;
+﻿using HerosAndGuilds.Managers;
+using HerosAndGuilds.Menus;
 using Spectre.Console;
 using System.ComponentModel.Design;
 
@@ -8,17 +9,20 @@ namespace HerosAndGuilds
     {
         static void Main(string[] args)
         {
-            var panel = new Panel("[bold yellow]Heroes & Guilds[/]") // ändra till https://spectreconsole.net/widgets/figlet? 
-               .Border(BoxBorder.Rounded)
-               .BorderColor(Color.Yellow);
 
-            AnsiConsole.Write(panel);
-
-            Manager manager = new Manager();     
+            UserManager manager = new UserManager();
             Startmeny startProgram = new Startmeny(manager);
 
-            startProgram.Menu(); 
-            // recive return from ^ to start next menu.
+            bool isloggedIn = startProgram.Menu();
+          
+
+            if (isloggedIn)
+            {
+
+                LoggedInMenu loggedInMenu = new LoggedInMenu(manager);
+                loggedInMenu.Menu();
+
+            }
         }
     }
 }

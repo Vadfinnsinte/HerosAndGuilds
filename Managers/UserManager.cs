@@ -3,17 +3,19 @@ using HerosAndGuilds.UserAndHero;
 using Spectre.Console;
 using System.Globalization;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 
-namespace HerosAndGuilds.MenuAndManagement
+namespace HerosAndGuilds.Managers
 {
-    public class Manager
+    public class UserManager
     {
         public List<User> Users;
         public List<Guild> Guilds;
+        public string LoggedInUserName;
         // also quests ? 
 
-        public Manager()
+        public UserManager()
         {
             Users = new List<User>();
             Guilds = new List<Guild>();
@@ -21,6 +23,7 @@ namespace HerosAndGuilds.MenuAndManagement
 
         public void CreateUser() // add go back to main menu .
         {
+
             User makeUser = new User();
             bool isPasswordOk = false;
             var panel = new Panel("[bold green]Create User[/]")
@@ -72,7 +75,7 @@ namespace HerosAndGuilds.MenuAndManagement
 
             AddUserToList(makeUser);
 
-            AnsiConsole.MarkupLine($"[green]User '{makeUser.Username}' created successfully![/]"); // add a confirm?
+            AnsiConsole.MarkupLine($"[bold green]User '{makeUser.Username}' created successfully![/]"); // add a confirm?
 
         }
 
@@ -116,7 +119,7 @@ namespace HerosAndGuilds.MenuAndManagement
             Users.Add(user);
             // add save to Json. 
         }
-        public void LoginUser()
+        public bool LoginUser()
         {
             var panel = new Panel("[bold green]Login[/]")
                 .Border(BoxBorder.Double)
@@ -133,14 +136,22 @@ namespace HerosAndGuilds.MenuAndManagement
 
             if (found != null)
             {
-                if(found.Password == password)
+                if (found.Password == password)
                 {
                     Console.WriteLine($"Welcome {username}");
+                    LoggedInUserName = username;
+                    return true;
                 }
                 else
                 {
                     Console.WriteLine("Wrong username or password");
+                    return false;
                 }
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[red]User not found![/]");
+                return false;
             }
 
         }
