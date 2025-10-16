@@ -129,7 +129,7 @@ namespace HerosAndGuilds.MenuAndManagement
             string password = AnsiConsole.Prompt(
              new TextPrompt<string>("Password:"));
 
-            User found = Users.Find(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            User found = Users.Find(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase)); // add null handle
 
             if (found != null)
             {
