@@ -1,4 +1,5 @@
-﻿using HerosAndGuilds.Managers;
+﻿using HerosAndGuilds.Database;
+using HerosAndGuilds.Managers;
 using HerosAndGuilds.Menus;
 using Spectre.Console;
 using System.ComponentModel.Design;
@@ -9,12 +10,11 @@ namespace HerosAndGuilds
     {
         static void Main(string[] args)
         {
-
             UserManager manager = new UserManager();
             Startmeny startProgram = new Startmeny(manager);
 
             bool isloggedIn = startProgram.Menu();
-          
+
 
             if (isloggedIn)
             {

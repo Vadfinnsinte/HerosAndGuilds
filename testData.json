@@ -1,0 +1,14 @@
+{
+  "Name": "Anna Example",
+  "Username": "anna123",
+  "Password": "SecurePassword123",
+  "Heroes": [],
+  "Email": "anna@example.com",
+  "PhoneNumer": 1234567890,
+  "Quest": [],
+  "NumberOfCompletedQuest": 0,
+  "NumberOfFailedQuest": 0,
+  "NumberOfQuestCloseToDeadline": 0,
+  "GuildAffiliation": "NoGuild",
+  "Level": 1
+}

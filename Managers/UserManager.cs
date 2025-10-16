@@ -1,4 +1,5 @@
-﻿using HerosAndGuilds.Guilds;
+﻿using HerosAndGuilds.Database;
+using HerosAndGuilds.Guilds;
 using HerosAndGuilds.UserAndHero;
 using Spectre.Console;
 using System.Globalization;
@@ -21,11 +22,12 @@ namespace HerosAndGuilds.Managers
             Guilds = new List<Guild>();
         }
 
-        public void CreateUser() // add go back to main menu .
+        public async Task CreateUser() // add go back to main menu .
         {
 
             User makeUser = new User();
             bool isPasswordOk = false;
+            bool isUsernameOk = false;
             var panel = new Panel("[bold green]Create User[/]")
            .Border(BoxBorder.Ascii)
            .BorderColor(Color.Green);
@@ -33,13 +35,31 @@ namespace HerosAndGuilds.Managers
 
             string name = AnsiConsole.Prompt(
                     new TextPrompt<string>("Name?"));
-            string username = AnsiConsole.Prompt(
-                    new TextPrompt<string>("Username?"));
+
+            while (!isUsernameOk)
+            {
+
+                string username = AnsiConsole.Prompt(
+                        new TextPrompt<string>("Username?"));
+                bool testUsername = IsUserNameUniqe(username);
+                if (testUsername)
+                {
+                    makeUser.Username = username;
+                    isUsernameOk = true;
+                }
+                else
+                {
+                    Console.WriteLine("Username is in use");
+
+                }
+
+            }
             while (!isPasswordOk)
             {
 
                 string password = AnsiConsole.Prompt(
                         new TextPrompt<string>("Password?"));
+
 
 
 
@@ -49,22 +69,18 @@ namespace HerosAndGuilds.Managers
                 {
                     makeUser.Name = name;
                     makeUser.Password = password;
-                    makeUser.Username = username; // add check to make sure it is Uniqe
-
-
-
                     makeUser.NumberOfCompletedQuest = 0;
                     makeUser.NumberOfFailedQuest = 0;
                     makeUser.NumberOfQuestCloseToDeadline = 0;
                     makeUser.GuildAffiliation = "None";
                     isPasswordOk = true;
 
-
                 }
                 else
                 {
                     Console.WriteLine("Password must be 10 charakters and contain lower case, upper case and specials(*/!) ");
                 }
+
             }
             string email = AnsiConsole.Prompt(
              new TextPrompt<string>("Email?")); // add check for email 
@@ -74,8 +90,9 @@ namespace HerosAndGuilds.Managers
             makeUser.PhoneNumer = phonenumber;
 
             AddUserToList(makeUser);
-
-            AnsiConsole.MarkupLine($"[bold green]User '{makeUser.Username}' created successfully![/]"); // add a confirm?
+            var db = new ConnectionDB();
+            await db.AddUserDB(makeUser);
+            AnsiConsole.MarkupLine($"[bold green]User '{makeUser.Username}' created successfully![/]");
 
         }
 
@@ -113,6 +130,19 @@ namespace HerosAndGuilds.Managers
 
 
 
+        }
+        public bool IsUserNameUniqe(string username)
+        {
+            User uniqeuser = Users.Find(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+            if (uniqeuser == null)
+            {
+                return true;
+            }
+            else
+            {
+
+                return false;
+            }
         }
         public void AddUserToList(User user)
         {
