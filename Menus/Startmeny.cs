@@ -4,28 +4,35 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using HerosAndGuilds.Managers;
 using HerosAndGuilds.UserAndHero;
 using Spectre.Console;
 
-namespace HerosAndGuilds.MenuAndManagement
+namespace HerosAndGuilds.Menus
 {
     public class Startmeny
     {
-        private Manager _manager;
+        private UserManager _manager;
         string Choice;
 
-        public Startmeny(Manager manager)
+        public Startmeny(UserManager manager)
         {
             _manager = manager;
         }
 
 
-        public void Menu() // add a return for logged in.
+        public bool Menu() // add a return for logged in.
         {
+            
             bool keepRunning = true;
 
             while (keepRunning)
             {
+                var panel = new Panel("[bold yellow]Heroes & Guilds[/]") // ändra till https://spectreconsole.net/widgets/figlet? 
+              .Border(BoxBorder.Rounded)
+              .BorderColor(Color.Yellow);
+
+                AnsiConsole.Write(panel);
                 Choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                     .Title("[blue]Choose if you want to Login, Create a User or Exit[/]")
@@ -39,14 +46,25 @@ namespace HerosAndGuilds.MenuAndManagement
                 {
                     case "Create User":
                         _manager.CreateUser();
+                        Thread.Sleep(2000);
+                        Console.Clear();
+       
                         break;
                     case "Login":
-                        _manager.LoginUser(); // add logic to send user from this menu.
-                        keepRunning = false;
+                        bool loggedIn = _manager.LoginUser();
+                        if (loggedIn)
+                        {
+                            keepRunning = false;
+                            
+                        Console.Clear();
+                            return true;
+                        }
                         break;
                     case "[red]Exit[/]":
+                        Console.Clear();
                         Console.WriteLine("Exiting program...");
                         keepRunning = false;
+                    
                         break;
                     default:
                         Console.WriteLine("Something went wrong");
@@ -54,6 +72,7 @@ namespace HerosAndGuilds.MenuAndManagement
                 }
                 
             }
+            return false;
         }
     }
 }
