@@ -21,7 +21,7 @@ namespace HerosAndGuilds.Menus
         }
 
 
-        public bool Menu() // add a return for logged in.
+        public async Task<bool> Menu() // add a return for logged in.
         {
 
             bool keepRunning = true;
@@ -58,15 +58,14 @@ namespace HerosAndGuilds.Menus
 
                         break;
                     case "Login":
-                        bool loggedIn = _manager.LoginUser();
+                        bool loggedIn = await _manager.LoginUser();
                         if (loggedIn)
                         {
-                            keepRunning = false;
-
                             Console.Clear();
-                            return true;
+                            return true; // Exit menu and continue to main game
                         }
                         break;
+                 
                     case "[red]Exit[/]":
                         Console.Clear();
                         Console.WriteLine("Exiting program...");

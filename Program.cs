@@ -8,12 +8,12 @@ namespace HerosAndGuilds
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             UserManager manager = new UserManager();
             Startmeny startProgram = new Startmeny(manager);
 
-            bool isloggedIn = startProgram.Menu();
+            bool isloggedIn = await startProgram.Menu();
 
 
             if (isloggedIn)
