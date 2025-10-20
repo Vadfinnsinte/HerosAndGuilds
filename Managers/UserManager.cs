@@ -89,9 +89,9 @@ namespace HerosAndGuilds.Managers
             makeUser.Email = email;
             makeUser.PhoneNumer = phonenumber;
 
-            AddUserToList(makeUser);
-            var db = new ConnectionDB();
+            var db = new ConnectionDBUsers();
             await db.AddUserDB(makeUser);
+            await AddUsersToList();
             AnsiConsole.MarkupLine($"[bold green]User '{makeUser.Username}' created successfully![/]");
 
         }
@@ -144,13 +144,23 @@ namespace HerosAndGuilds.Managers
                 return false;
             }
         }
-        public void AddUserToList(User user)
+        public async Task AddUsersToList()
         {
-            Users.Add(user);
-            // add save to Json. 
+            var db = new ConnectionDBUsers();
+            var usersFromDb = await db.FetchUsers();
+            foreach (var u in usersFromDb)
+            {
+                if (!Users.Any(existing => existing.Username.Equals(u.Username, StringComparison.OrdinalIgnoreCase)))
+                {
+                    Users.Add(u);
+                }
+            }
+
         }
-        public bool LoginUser()
+        public async Task<bool> LoginUser()
         {
+            await AddUsersToList();
+
             var panel = new Panel("[bold green]Login[/]")
                 .Border(BoxBorder.Double)
                 .BorderColor(Color.Green);
@@ -181,6 +191,8 @@ namespace HerosAndGuilds.Managers
             else
             {
                 AnsiConsole.MarkupLine("[red]User not found![/]");
+                Thread.Sleep(1000);
+                AnsiConsole.Clear();
                 return false;
             }
 

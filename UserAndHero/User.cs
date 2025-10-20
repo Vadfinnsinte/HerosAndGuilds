@@ -1,4 +1,6 @@
 ﻿using HerosAndGuilds.Quests;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using Spectre.Console;
 
 
@@ -7,6 +9,9 @@ namespace HerosAndGuilds.UserAndHero
 {
     public class User
     {
+        [BsonId] 
+        [BsonRepresentation(BsonType.ObjectId)] 
+        public string Id;
         public string Name; 
         public string Username;
         public string Password;
