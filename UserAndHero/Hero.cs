@@ -1,9 +1,5 @@
 ﻿using HerosAndGuilds.Quests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Spectre.Console;
 
 namespace HerosAndGuilds.UserAndHero
 {
@@ -15,12 +11,19 @@ namespace HerosAndGuilds.UserAndHero
         public string Race;
         public int Level;
         public string SpecialAttack;
-        public Quest[] CompeletedQuests; //
+        public Quest[] CompeletedQuests; //Remove? 
 
-    public void CreateHero()
+        public void CreateHero()
         {
             // make selectable choises(for race and their special attack) and input for names.
-            
+            Name = AnsiConsole.Prompt(new TextPrompt<string>(" Name of you hero: "));
+            Race = AnsiConsole.Prompt(new SelectionPrompt<string>()
+                .Title("Race")
+                .AddChoices(new[] { "Elf", "Human", "Oger", "Dwarf", })
+                );
+
+
+
         }
         public void SelectHero()
         {

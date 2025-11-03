@@ -2,38 +2,37 @@
 using HerosAndGuilds.UserAndHero;
 using MongoDB.Driver;
 
-using System.Threading.Tasks;
 
 namespace HerosAndGuilds.Database
 {
     public class ConnectionDBUsers
     {
-            private readonly string connectionString;
-            private readonly string dbName;
-            private readonly IMongoCollection<User> userCollection;
+        private readonly string connectionString;
+        private readonly string dbName;
+        private readonly IMongoCollection<User> userCollection;
 
-            // Konstruktor körs när objektet skapas
-            public ConnectionDBUsers()
-            {
-                // Ladda miljövariabler från .env (om du använder en sådan)
-                Env.Load();
+        // Konstruktor körs när objektet skapas
+        public ConnectionDBUsers()
+        {
+            // Ladda miljövariabler från .env (om du använder en sådan)
+            Env.Load();
 
-                // Hämta variabler
-                connectionString = Environment.GetEnvironmentVariable("MONGO_URI");
-                dbName = Environment.GetEnvironmentVariable("MONGO_DB");
+            // Hämta variabler
+            connectionString = Environment.GetEnvironmentVariable("MONGO_URI");
+            dbName = Environment.GetEnvironmentVariable("MONGO_DB");
 
-                // Anslut till databasen
-                var client = new MongoClient(connectionString);
-                var database = client.GetDatabase(dbName);
+            // Anslut till databasen
+            var client = new MongoClient(connectionString);
+            var database = client.GetDatabase(dbName);
 
-                // Hämta "Users"-kollektionen
-                userCollection = database.GetCollection<User>("Users");
-            }
-            public async Task AddUserDB(User newUser)
+            // Hämta "Users"-kollektionen
+            userCollection = database.GetCollection<User>("Users");
+        }
+        public async Task AddUserDB(User newUser)
         {
             try
             {
-              
+
                 await userCollection.InsertOneAsync(newUser);
             }
             catch (MongoException ex)
